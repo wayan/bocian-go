@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/wayan/bocian"
+	"github.com/wayan/bocian-go"
 )
 
 func main() {
