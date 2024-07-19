@@ -8,4 +8,4 @@ require (
 	github.com/urfave/cli/v2 v2.6.0
 )
 
-require github.com/wayan/mergeexp v0.1.0
+require github.com/wayan/mergeexp v0.2.0

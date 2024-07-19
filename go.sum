@@ -13,5 +13,7 @@ github.com/wayan/mergeexp v0.0.0-20220404171102-e985bcc80bae h1:XxjF3CouLTFKb8d0
 github.com/wayan/mergeexp v0.0.0-20220404171102-e985bcc80bae/go.mod h1:YduJ3xzT29gySVJKAS4YzMkz01V0xYRk14WqAUd9aXs=
 github.com/wayan/mergeexp v0.1.0 h1:4feqdUYQRfWO64d+WlwbkJg6UNZato7Zvy9Ht1ea0bI=
 github.com/wayan/mergeexp v0.1.0/go.mod h1:lqTZnnqR8fTfC22t3uIL6wmcn4O95+JwA541StUr7RE=
+github.com/wayan/mergeexp v0.2.0 h1:1/vIp/nCpxxD1UWzXLeO5F3+DwRov6ccF2XyoHQ9b6U=
+github.com/wayan/mergeexp v0.2.0/go.mod h1:lqTZnnqR8fTfC22t3uIL6wmcn4O95+JwA541StUr7RE=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.2.8/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
