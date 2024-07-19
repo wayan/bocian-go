@@ -2,9 +2,11 @@ package bocian
 
 import (
 	"fmt"
-	"github.com/urfave/cli/v2"
 	"log"
 	"os"
+	"runtime/debug"
+
+	"github.com/urfave/cli/v2"
 )
 
 func (ba bocianapp) mergeexpcli() *cli.App {
@@ -25,6 +27,13 @@ func (ba bocianapp) mergeexpcli() *cli.App {
 		},
 	}
 	flags := []cli.Flag{}
+
+	flags = append(flags,
+		&cli.BoolFlag{
+			Name:  "version",
+			Usage: "prints the version of the installation script",
+		},
+	)
 
 	flags = append(flags,
 		&cli.StringFlag{
@@ -101,11 +110,34 @@ func (ba bocianapp) mergeexpcli() *cli.App {
 		Description: desc,
 		Flags:       flags,
 		Action: func(c *cli.Context) error {
+			if c.Bool("version") {
+				info, _ := debug.ReadBuildInfo()
+				for _, dep := range info.Deps {
+					fmt.Printf("%+w\n", dep)
+				}
+				fmt.Println(ba.GetVersion())
+				return nil
+			}
 			return ba.run(c, true, true)
 		},
 		Commands: commands,
 	}
 	return app
+}
+
+func (ba bocianapp) GetVersion() string {
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return "unknown"
+	}
+
+	path := "github.com/wayan/bocian-go"
+	for _, module := range info.Deps {
+		if module.Path == path {
+			return module.Version
+		}
+	}
+	return "unknown"
 }
 
 func (ba bocianapp) RunMergeExp() {
