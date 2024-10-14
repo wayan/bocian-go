@@ -93,7 +93,10 @@ func (ba bocianapp) mergeexpcli() *cli.App {
 	*/
 	if ba.hasTest2 {
 		flags = append(flags,
-			&cli.BoolFlag{Name: "test2", Usage: "deploys to TEST2 environment (default is TEST1)"},
+			&cli.BoolFlag{Name: "test1", Usage: "deploys to TEST1 environment only (default is TEST1 + TEST2)"},
+		)
+		flags = append(flags,
+			&cli.BoolFlag{Name: "test2", Usage: "deploys to TEST2 environment only (default is TEST1 + TEST2)"},
 		)
 	}
 	desc := fmt.Sprintf(
@@ -146,4 +149,30 @@ func (ba bocianapp) RunMergeExp() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// runs on all envs
+func (ba bocianapp) run(c *cli.Context, run_build, run_deploy bool) error {
+	if !ba.hasTest2 {
+		return ba.runEnv(c, run_build, run_deploy, "TEST1")
+	}
+
+	var envs []string
+	if c.Bool("test1") {
+		envs = append(envs, "TEST1")
+	}
+	if c.Bool("test2") {
+		envs = append(envs, "TEST2")
+	}
+	if len(envs) == 0 {
+		// no option --test1, --test2 means run all
+		envs = []string{"TEST1", "TEST2"}
+	}
+	for _, env := range envs {
+		err := ba.runEnv(c, run_build, run_deploy, env)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

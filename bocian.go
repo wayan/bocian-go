@@ -3,15 +3,16 @@ package bocian
 import (
 	"errors"
 	"fmt"
-	"github.com/urfave/cli/v2"
-	"github.com/wayan/mergeexp"
 	"log"
 	"os"
 	"regexp"
+
+	"github.com/urfave/cli/v2"
+	"github.com/wayan/mergeexp"
 )
 
 /*
-   data for OCP, Cow, BModel
+data for OCP, Cow, BModel
 */
 type bocianapp struct {
 	target               string
@@ -82,7 +83,7 @@ func (ba bocianapp) Info(s string) {
 }
 
 // runs both build and deploy
-func (ba bocianapp) run(c *cli.Context, run_build bool, run_deploy bool) error {
+func (ba bocianapp) runEnv(c *cli.Context, run_build, run_deploy bool, env string) error {
 	me := &mergeexp.MergeExp{Logger: ba}
 	err := ba.prepareDir(c, me)
 	if err == nil && run_build {
@@ -103,10 +104,8 @@ func (ba bocianapp) run(c *cli.Context, run_build bool, run_deploy bool) error {
 	ba.Info(fmt.Sprintf("start in '%s'", me.Dir))
 
 	tag := "experimental"
-	env := "TEST1"
 	localBranch := "experimental"
-	if ba.hasTest2 && c.Bool("test2") {
-		env = "TEST2"
+	if env == "TEST2" {
 		localBranch = localBranch + "-" + env
 	}
 
@@ -216,7 +215,7 @@ func (ba bocianapp) startbranch(c *cli.Context, me *mergeexp.MergeExp, localBran
 }
 
 /*
-   returns full mergeexp.MergeExp struct
+returns full mergeexp.MergeExp struct
 */
 func (ba bocianapp) prepareDir(c *cli.Context, me *mergeexp.MergeExp) error {
 
